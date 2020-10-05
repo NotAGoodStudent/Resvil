@@ -16,9 +16,9 @@ public class User
     String password;
     String role;
     float credit;
-    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade=CascadeType.ALL)
     List<Sale> boughtProducts = new ArrayList<>();
-    @ManyToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade=CascadeType.ALL)
     List<Product> cart = new ArrayList<>();
 
     public User()

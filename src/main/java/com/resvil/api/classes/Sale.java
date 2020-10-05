@@ -10,9 +10,9 @@ public class Sale
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int saleID;
     int quantity;
-    @OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.ALL)
     Product soldProd;
-    @OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(cascade=CascadeType.ALL)
     User buyer;
     LocalDateTime ldt;
     boolean prodArrived;

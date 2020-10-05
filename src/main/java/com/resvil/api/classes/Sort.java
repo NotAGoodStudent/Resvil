@@ -11,7 +11,7 @@ public class Sort
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int sortID;
     String sort;
-    @OneToMany(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL)
     List<Product> products = new ArrayList<>();
 
     public Sort()

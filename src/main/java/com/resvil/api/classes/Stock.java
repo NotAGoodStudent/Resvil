@@ -3,12 +3,11 @@ package com.resvil.api.classes;
 import javax.persistence.*;
 
 @Entity
-public class Stock
-{
+public class Stock{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int prodID;
-    @OneToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne
     Product product;
     int prodStock;
 

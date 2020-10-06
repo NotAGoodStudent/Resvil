@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 public class ResvilApiRest
 {
 
-    //@Autowired
-    //private UserDao userDao;
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "getUser", method = RequestMethod.GET)
     public ResponseEntity<User> greet()

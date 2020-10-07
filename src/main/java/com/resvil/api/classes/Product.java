@@ -1,9 +1,6 @@
 package com.resvil.api.classes;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
@@ -16,6 +13,8 @@ public class Product
     private String prodDesc;
     private float prodPrice;
     private float prodRating;
+    @ManyToOne
+    private Sort prodType;
 
     public Product(int prodID, String prodName, String prodDesc, Float prodPrice)
     {
@@ -70,4 +69,11 @@ public class Product
         this.prodRating = prodRating;
     }
 
+    public Sort getProdType() {
+        return prodType;
+    }
+
+    public void setProdType(Sort prodType) {
+        this.prodType = prodType;
+    }
 }

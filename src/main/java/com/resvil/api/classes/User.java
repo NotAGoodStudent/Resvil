@@ -7,40 +7,31 @@ import javax.persistence.*;
 @Entity
 public class User
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int userID;
     String name;
     String surname;
+    @Id
     String email;
     String password;
     String role;
     float credit;
     @ManyToMany(cascade=CascadeType.ALL)
+    @Column(nullable = false)
     List<Sale> boughtProducts = new ArrayList<>();
     @ManyToMany(cascade=CascadeType.ALL)
+    @Column(nullable = false)
     List<Product> cart = new ArrayList<>();
 
     public User()
     {
 
     }
-    public User(int userID, String name, String surname, String email, String password, String role)
+    public User(String name, String surname, String email, String password, String role)
     {
-        this.userID = userID;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.role = role;
-    }
-
-    public int getUserIDId() {
-        return userID;
-    }
-
-    public void setUserIDId(int id) {
-        this.userID = id;
     }
 
     public String getName() {

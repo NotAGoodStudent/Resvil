@@ -13,7 +13,6 @@ public class Product
     private String prodDesc;
     private double prodPrice;
     private double prodRating;
-    private int quantity;
     private String prodType;
 
     public Product(int prodID, String prodName, String prodDesc, Double prodPrice)

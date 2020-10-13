@@ -1,8 +1,5 @@
 package com.resvil.api.rest;
-import com.resvil.api.classes.Product;
-import com.resvil.api.classes.Sale;
-import com.resvil.api.classes.Sort;
-import com.resvil.api.classes.User;
+import com.resvil.api.classes.*;
 import com.resvil.api.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +25,8 @@ public class ResvilApiRest
     private SortDao sortDao;
     @Autowired
     private SaleDao saleDao;
+    @Autowired
+    private ProdPurchaseQuantityDao ProdPurchaseQuantityDao;
 
 
     @RequestMapping(value = "getUser/{mail}", method = RequestMethod.GET)
@@ -71,7 +70,7 @@ public class ResvilApiRest
 
 
     //PROD TYPE
-    @RequestMapping(value = "getsort/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "getSort/{id}", method = RequestMethod.GET)
     public ResponseEntity<Sort> getSort(@PathVariable("id") int id)
     {
         Optional<Sort> foundSort = sortDao.findById(id);
@@ -152,6 +151,7 @@ public class ResvilApiRest
             {
                 prod.setProdType(s.getSort());
                 prodDao.save(prod);
+                updateTypeList(s, prod);
                 return ResponseEntity.ok(prod);
             }
         }
@@ -185,15 +185,43 @@ public class ResvilApiRest
         return ResponseEntity.ok(type);
     }
 
-/*
     @RequestMapping(value = "updateTypeList", method = RequestMethod.PUT)
     public ResponseEntity<Sort> updateTypeList(Sort s, Product p)
     {
         s.getProducts().add(p);
         sortDao.save(s);
-        ResponseEntity.ok(s);
+        return ResponseEntity.ok(s);
     }
-*/
+
+    @RequestMapping(value = "addQuantity/{id}", method = RequestMethod.POST)
+    public ResponseEntity<ProdPurchaseQuantity> addQuantity(@PathVariable int id, @RequestBody ProdPurchaseQuantity quantity)
+    {
+        Optional<Product> product = prodDao.findById(id);
+
+        if(product.isPresent())
+        {
+            List<ProdPurchaseQuantity> getQuantiies = ProdPurchaseQuantityDao.findAll();
+            if(!getQuantiies.isEmpty())
+            {
+                for(ProdPurchaseQuantity ppq : getQuantiies)
+                {
+                    if(ppq.getProdID() == id)
+                    {
+                        ppq.setQuantity(ppq.getQuantity() + quantity.getQuantity());
+                        return ResponseEntity.ok(quantity);
+                    }
+                }
+            }
+            Product prod = product.get();
+            quantity.setProdID(prod.getProdID());
+            ProdPurchaseQuantityDao.save(quantity);
+            return ResponseEntity.ok(quantity);
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 
 

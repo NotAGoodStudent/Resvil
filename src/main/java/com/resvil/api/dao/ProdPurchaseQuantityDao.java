@@ -1,4 +1,9 @@
 package com.resvil.api.dao;
 
-public interface ProdPurchaseQuantityDao {
+import com.resvil.api.classes.ProdPurchaseQuantity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProdPurchaseQuantityDao extends JpaRepository<ProdPurchaseQuantity, Integer>
+{
+
 }

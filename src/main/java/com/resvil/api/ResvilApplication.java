@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.resvil.api.dao.*;
 
 @SpringBootApplication
-public class ResvilApplication {
+public class ResvilApplication
+{
 
     public static void main(String[] args)
     {

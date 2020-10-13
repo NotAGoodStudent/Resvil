@@ -11,12 +11,12 @@ public class Product
     private int prodID;
     private String prodName;
     private String prodDesc;
-    private float prodPrice;
-    private float prodRating;
-    @ManyToOne
-    private Sort prodType;
+    private double prodPrice;
+    private double prodRating;
+    private int quantity;
+    private String prodType;
 
-    public Product(int prodID, String prodName, String prodDesc, Float prodPrice)
+    public Product(int prodID, String prodName, String prodDesc, Double prodPrice)
     {
         this.prodID = prodID;
         this.prodName = prodName;
@@ -53,27 +53,28 @@ public class Product
     }
 
 
-    public Float getProdPrice() {
+    public Double getProdPrice() {
         return prodPrice;
     }
 
-    public void setProdPrice(Float prodPrice) {
+    public void setProdPrice(Double prodPrice) {
         this.prodPrice = prodPrice;
     }
 
-    public float getProdRating() {
+    public double getProdRating() {
         return prodRating;
     }
 
-    public void setProdRating(int prodRating) {
+    public void setProdRating(double prodRating) {
         this.prodRating = prodRating;
     }
 
-    public Sort getProdType() {
+    public String getProdType() {
         return prodType;
     }
 
-    public void setProdType(Sort prodType) {
+    public void setProdType(String prodType) {
         this.prodType = prodType;
     }
+
 }

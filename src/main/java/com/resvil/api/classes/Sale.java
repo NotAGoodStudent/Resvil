@@ -2,6 +2,7 @@ package com.resvil.api.classes;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Sale
@@ -9,18 +10,18 @@ public class Sale
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int saleID;
-    int quantity;
-    @OneToOne(cascade=CascadeType.ALL)
-    Product soldProd;
+    @OneToMany(cascade=CascadeType.ALL)
+    List<Product> soldProd;
+    @OneToMany(cascade=CascadeType.ALL)
+    List<ProdPurchaseQuantity> purchaseQuantity;
     @OneToOne(cascade=CascadeType.ALL)
     User buyer;
     LocalDateTime ldt;
     boolean prodArrived;
 
-    public Sale(int saleID, int quantity, Product soldProd, User buyer, LocalDateTime ldt){}
+    public Sale(int saleID, Product soldProd, User buyer, LocalDateTime ldt){}
     {
         this.saleID = saleID;
-        this.quantity = quantity;
         this.soldProd = soldProd;
         this.buyer = buyer;
         this.ldt = ldt;
@@ -38,19 +39,11 @@ public class Sale
         this.saleID = saleID;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Product getSoldProd() {
+    public List<Product> getSoldProd() {
         return soldProd;
     }
 
-    public void setSoldProd(Product soldProd) {
+    public void setSoldProd(List<Product> soldProd) {
         this.soldProd = soldProd;
     }
 

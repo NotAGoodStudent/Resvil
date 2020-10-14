@@ -29,6 +29,7 @@ public class ResvilApiRest
     private ProdPurchaseQuantityDao ProdPurchaseQuantityDao;
 
 
+
     @RequestMapping(value = "getUser/{mail}", method = RequestMethod.GET)
     public ResponseEntity<User> getUser(@PathVariable("mail") String mail)
     {
@@ -208,10 +209,12 @@ public class ResvilApiRest
                     if(ppq.getProdID() == id)
                     {
                         ppq.setQuantity(ppq.getQuantity() + quantity.getQuantity());
+                        ProdPurchaseQuantityDao.save(ppq);
                         return ResponseEntity.ok(quantity);
                     }
                 }
             }
+
             Product prod = product.get();
             quantity.setProdID(prod.getProdID());
             ProdPurchaseQuantityDao.save(quantity);
@@ -221,9 +224,49 @@ public class ResvilApiRest
         return ResponseEntity.noContent().build();
     }
 
+    @RequestMapping(value = "deleteUser/{mail}", method = RequestMethod.DELETE)
+    public ResponseEntity<User> deleteUser(@PathVariable String mail)
+    {
+        Optional<User> delUser = userDao.findById(mail);
+        if(delUser.isPresent())
+        {
+            User user = delUser.get();
+            userDao.delete(user);
+            return ResponseEntity.ok(user);
+        }
+
+        else return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "deleteProduct/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Product> deleteProduct(@PathVariable int id)
+    {
+        Optional<Product> delProd = prodDao.findById(id);
+        if(delProd.isPresent())
+        {
+            Product prod = delProd.get();
+            prodDao.delete(prod);
+            return ResponseEntity.ok(prod);
+        }
+
+        else return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "deleteType/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Sort> deleteType(@PathVariable int id)
+    {
+        Optional<Sort> delSort = sortDao.findById(id);
+        if(delSort.isPresent())
+        {
+            Sort sort = delSort.get();
+            sortDao.delete(sort);
+            return ResponseEntity.ok(sort);
+        }
+
+        else return ResponseEntity.ok().build();
+    }
 
 
 
-
-    
 }
+

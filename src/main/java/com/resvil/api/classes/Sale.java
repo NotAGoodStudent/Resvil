@@ -1,7 +1,9 @@
 package com.resvil.api.classes;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,16 +15,17 @@ public class Sale
     @OneToMany(cascade=CascadeType.ALL)
     List<Product> soldProd;
     @OneToMany(cascade=CascadeType.ALL)
-    List<ProdPurchaseQuantity> purchaseQuantity;
+    List<PurchaseQuantity> quantities;
     @OneToOne(cascade=CascadeType.ALL)
     User buyer;
     LocalDateTime ldt;
     boolean prodArrived;
 
-    public Sale(int saleID, Product soldProd, User buyer, LocalDateTime ldt){}
+    public Sale(int saleID, List<Product> soldProd, List<PurchaseQuantity> quantities, User buyer, LocalDateTime ldt)
     {
         this.saleID = saleID;
         this.soldProd = soldProd;
+        this.quantities = quantities;
         this.buyer = buyer;
         this.ldt = ldt;
     }
@@ -69,5 +72,13 @@ public class Sale
 
     public void setProdArrived(boolean prodArrived) {
         this.prodArrived = prodArrived;
+    }
+
+    public List<PurchaseQuantity> getQuantities() {
+        return quantities;
+    }
+
+    public void setQuantities(List<PurchaseQuantity> quantities) {
+        this.quantities = quantities;
     }
 }

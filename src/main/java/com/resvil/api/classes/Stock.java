@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ProdPurchaseQuantity
+public class Stock
 {
 
     @Id
@@ -16,7 +16,7 @@ public class ProdPurchaseQuantity
     int quantity;
 
 
-    public ProdPurchaseQuantity() {
+    public Stock() {
     }
 
     public int getProdPurchaseId() {

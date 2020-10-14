@@ -1,0 +1,38 @@
+package com.resvil.api.classes;
+
+import javax.persistence.*;
+
+@Entity
+public class PurchaseQuantity
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int purchaseQuantityID;
+    @ManyToOne
+    private Product prod;
+    private int purchasedQuantity;
+
+    public int getPurchaseQuantityID() {
+        return purchaseQuantityID;
+    }
+
+    public void setPurchaseQuantityID(int purchaseQuantityID) {
+        this.purchaseQuantityID = purchaseQuantityID;
+    }
+
+    public Product getProd() {
+        return prod;
+    }
+
+    public void setProd(Product prod) {
+        this.prod = prod;
+    }
+
+    public int getPurchasedQuantity() {
+        return purchasedQuantity;
+    }
+
+    public void setPurchasedQuantity(int purchasedQuantity) {
+        this.purchasedQuantity = purchasedQuantity;
+    }
+}

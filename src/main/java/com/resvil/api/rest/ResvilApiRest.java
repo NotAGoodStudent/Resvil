@@ -5,10 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.ManyToOne;
-import javax.print.DocFlavor;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +22,7 @@ public class ResvilApiRest
     @Autowired
     private SaleDao saleDao;
     @Autowired
-    private ProdPurchaseQuantityDao ProdPurchaseQuantityDao;
+    private StockDao stockDao;
 
 
 
@@ -195,21 +191,21 @@ public class ResvilApiRest
     }
 
     @RequestMapping(value = "addQuantity/{id}", method = RequestMethod.POST)
-    public ResponseEntity<ProdPurchaseQuantity> addQuantity(@PathVariable int id, @RequestBody ProdPurchaseQuantity quantity)
+    public ResponseEntity<Stock> addQuantity(@PathVariable int id, @RequestBody Stock quantity)
     {
         Optional<Product> product = prodDao.findById(id);
 
         if(product.isPresent())
         {
-            List<ProdPurchaseQuantity> getQuantiies = ProdPurchaseQuantityDao.findAll();
+            List<Stock> getQuantiies = stockDao.findAll();
             if(!getQuantiies.isEmpty())
             {
-                for(ProdPurchaseQuantity ppq : getQuantiies)
+                for(Stock ppq : getQuantiies)
                 {
                     if(ppq.getProdID() == id)
                     {
                         ppq.setQuantity(ppq.getQuantity() + quantity.getQuantity());
-                        ProdPurchaseQuantityDao.save(ppq);
+                        stockDao.save(ppq);
                         return ResponseEntity.ok(quantity);
                     }
                 }
@@ -217,7 +213,7 @@ public class ResvilApiRest
 
             Product prod = product.get();
             quantity.setProdID(prod.getProdID());
-            ProdPurchaseQuantityDao.save(quantity);
+            stockDao.save(quantity);
             return ResponseEntity.ok(quantity);
         }
 
@@ -265,6 +261,8 @@ public class ResvilApiRest
 
         else return ResponseEntity.ok().build();
     }
+
+
 
 
 

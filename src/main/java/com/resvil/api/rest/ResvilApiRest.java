@@ -66,37 +66,6 @@ public class ResvilApiRest
     }
 
 
-    //PROD TYPE
-    @RequestMapping(value = "getSort/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Sort> getSort(@PathVariable("id") int id)
-    {
-        Optional<Sort> foundSort = sortDao.findById(id);
-        if(foundSort.isPresent())
-        {
-            Sort s = foundSort.get();
-            return ResponseEntity.ok(s);
-        }
-
-        else return ResponseEntity.noContent().build();
-    }
-
-    @RequestMapping(value = "addSort", method = RequestMethod.POST)
-    public ResponseEntity<Sort> addSort(@RequestBody Sort sort)
-    {
-        List<Sort> prodTypes = sortDao.findAll();
-        for(Sort s : prodTypes)
-        {
-            if(s.getSort().equalsIgnoreCase(sort.getSort()))
-            {
-                    return ResponseEntity.noContent().build();
-            }
-        }
-
-        sortDao.save(sort);
-        return ResponseEntity.ok(sort);
-    }
-
-    //SALE
 
     @RequestMapping(value = "addSale/{mail}", method = RequestMethod.POST)
     public ResponseEntity<Sale> addSale(@PathVariable("mail") String mail, @RequestBody Sale sale)
@@ -202,7 +171,7 @@ public class ResvilApiRest
             {
                 for(Stock ppq : getQuantiies)
                 {
-                    if(ppq.getProdID() == id)
+                    if(ppq.getProd().getProdID() == id)
                     {
                         ppq.setQuantity(ppq.getQuantity() + quantity.getQuantity());
                         stockDao.save(ppq);
@@ -212,12 +181,24 @@ public class ResvilApiRest
             }
 
             Product prod = product.get();
-            quantity.setProdID(prod.getProdID());
+            quantity.setProd(prod);
             stockDao.save(quantity);
             return ResponseEntity.ok(quantity);
         }
 
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(value = "getQuantity/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Stock> getQuantity(@PathVariable int id)
+    {
+        List<Stock> stocks = stockDao.findAll();
+        for(Stock s : stocks)
+        {
+            if(s.getProd().getProdID() == id) return ResponseEntity.ok(s);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "deleteUser/{mail}", method = RequestMethod.DELETE)
@@ -261,6 +242,56 @@ public class ResvilApiRest
 
         else return ResponseEntity.ok().build();
     }
+
+    @RequestMapping(value = "updateProd/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Product> updateProd(@PathVariable int id, @RequestBody Product prod)
+    {
+        Optional<Product> product = prodDao.findById(id);
+        if(product.isPresent())
+        {
+            Product saveData = product.get();
+            Product updatedProd = prod;
+            updatedProd.setProdID(id);
+            updatedProd.setProdType(saveData.getProdType());
+            prodDao.save(updatedProd);
+            return ResponseEntity.ok(updatedProd);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "updateType/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Sort> updateType(@PathVariable int id, @RequestBody Sort sort)
+    {
+        Optional<Sort> prodType = sortDao.findById(id);
+        if(prodType.isPresent())
+        {
+            Sort saveData = prodType.get();
+            Sort s = sort;
+            s.setProducts(saveData.getProducts());
+            s.setSortID(id);
+            sortDao.save(s);
+            return ResponseEntity.ok(s);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "updateUser/{mail}", method = RequestMethod.PUT)
+    public ResponseEntity<User> updateUser(@PathVariable String mail, @RequestBody User user)
+    {
+        Optional<User> u = userDao.findById(mail);
+        if(u.isPresent())
+        {
+            User saveData = u.get();
+            User updatedUser = user;
+            updatedUser.setBoughtProducts(saveData.getBoughtProducts());
+            userDao.save(updatedUser);
+            return ResponseEntity.ok(updatedUser);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
 
 

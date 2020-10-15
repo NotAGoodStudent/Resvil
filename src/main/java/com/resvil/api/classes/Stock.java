@@ -1,9 +1,6 @@
 package com.resvil.api.classes;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Stock
@@ -12,7 +9,8 @@ public class Stock
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int prodPurchaseId;
-    int prodID;
+    @OneToOne
+    Product prod;
     int quantity;
 
 
@@ -27,12 +25,12 @@ public class Stock
         this.prodPurchaseId = prodPurchaseId;
     }
 
-    public int getProdID() {
-        return prodID;
+    public Product getProd() {
+        return prod;
     }
 
-    public void setProdID(int prodID) {
-        this.prodID = prodID;
+    public void setProd(Product prod) {
+        this.prod = prod;
     }
 
     public int getQuantity() {

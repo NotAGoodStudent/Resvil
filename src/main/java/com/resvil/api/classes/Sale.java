@@ -13,19 +13,16 @@ public class Sale
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int saleID;
     @OneToMany(cascade=CascadeType.ALL)
-    List<Product> soldProd;
-    @OneToMany(cascade=CascadeType.ALL)
-    List<PurchaseQuantity> quantities;
+    List<PurchaseQuantity> soldProd;
     @OneToOne(cascade=CascadeType.ALL)
     User buyer;
     LocalDateTime ldt;
     boolean prodArrived;
 
-    public Sale(int saleID, List<Product> soldProd, List<PurchaseQuantity> quantities, User buyer, LocalDateTime ldt)
+    public Sale(int saleID, List<PurchaseQuantity> soldProd, User buyer, LocalDateTime ldt)
     {
         this.saleID = saleID;
         this.soldProd = soldProd;
-        this.quantities = quantities;
         this.buyer = buyer;
         this.ldt = ldt;
     }
@@ -42,11 +39,11 @@ public class Sale
         this.saleID = saleID;
     }
 
-    public List<Product> getSoldProd() {
+    public List<PurchaseQuantity> getSoldProd() {
         return soldProd;
     }
 
-    public void setSoldProd(List<Product> soldProd) {
+    public void setSoldProd(List<PurchaseQuantity> soldProd) {
         this.soldProd = soldProd;
     }
 
@@ -74,11 +71,4 @@ public class Sale
         this.prodArrived = prodArrived;
     }
 
-    public List<PurchaseQuantity> getQuantities() {
-        return quantities;
-    }
-
-    public void setQuantities(List<PurchaseQuantity> quantities) {
-        this.quantities = quantities;
-    }
 }

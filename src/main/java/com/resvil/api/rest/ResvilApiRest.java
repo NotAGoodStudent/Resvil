@@ -66,17 +66,12 @@ public class ResvilApiRest
     }
 
 
-
+/*
     @RequestMapping(value = "addSale/{mail}", method = RequestMethod.POST)
     public ResponseEntity<Sale> addSale(@PathVariable("mail") String mail, @RequestBody Sale sale)
     {
-        Optional<User> foundUser = userDao.findById(mail);
-        User user = foundUser.get();
-        user.getBoughtProducts().add(sale);
-        userDao.save(user);
-        saleDao.save(sale);
-        return ResponseEntity.ok(sale);
-    }
+        re
+    }*/
 
     @RequestMapping(value = "getSale/{id}", method = RequestMethod.GET)
     public ResponseEntity<Sale> getSale(@PathVariable("id") int id)
@@ -283,13 +278,62 @@ public class ResvilApiRest
         {
             User saveData = u.get();
             User updatedUser = user;
-            updatedUser.setBoughtProducts(saveData.getBoughtProducts());
+            updatedUser.setTickets(saveData.getTickets());
+            updatedUser.setCart(saveData.getCart());
             userDao.save(updatedUser);
             return ResponseEntity.ok(updatedUser);
         }
 
         return ResponseEntity.ok().build();
     }
+
+    @RequestMapping(value = "addtoCart/{id}/{mail}", method = RequestMethod.POST)
+    public ResponseEntity<PurchaseQuantity> addtoCart(@PathVariable int id, @PathVariable String mail, @RequestBody PurchaseQuantity purchase)
+    {
+        Optional<Product> prodToCart = prodDao.findById(id);
+        Optional<User> buyer = userDao.findById(mail);
+        List<Stock> stocks = stockDao.findAll();
+        boolean enoughStock = false;
+        int stockID = 0;
+
+        for(Stock s : stocks)
+        {
+            if(s.getProd().getProdID() == id)
+            {
+                if(s.getQuantity() >= purchase.getPurchasedQuantity())
+                {
+                    s.setQuantity(s.getQuantity() - purchase.getPurchasedQuantity());
+                    enoughStock = true;
+                }
+            }
+        }
+        if(buyer.isPresent() && prodToCart.isPresent() && enoughStock)
+        {
+            User user = buyer.get();
+            if(!user.getCart().isEmpty()) {
+                for (PurchaseQuantity p : user.getCart())
+                {
+                    if (p.getProd().getProdID() == id)
+                    {
+                        p.setPurchasedQuantity(p.getPurchasedQuantity() + purchase.getPurchasedQuantity());
+                        userDao.save(user);
+                        return ResponseEntity.ok(purchase);
+                    }
+                }
+            }
+            else {
+                purchase.setProd(prodToCart.get());
+                user.getCart().add(purchase);
+                userDao.save(user);
+                return ResponseEntity.ok(purchase);
+            }
+
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
+
 
 
 

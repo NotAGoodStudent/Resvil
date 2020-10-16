@@ -16,10 +16,10 @@ public class User
     float credit;
     @ManyToMany(cascade=CascadeType.ALL)
     @Column(nullable = false)
-    List<Sale> boughtProducts = new ArrayList<>();
+    List<Sale> tickets = new ArrayList<>();
     @ManyToMany(cascade=CascadeType.ALL)
     @Column(nullable = false)
-    List<Product> cart = new ArrayList<>();
+    List<PurchaseQuantity> cart = new ArrayList<>();
 
     public User()
     {
@@ -82,19 +82,19 @@ public class User
         this.credit = credit;
     }
 
-    public List<Sale> getBoughtProducts() {
-        return boughtProducts;
+    public List<Sale> getTickets() {
+        return tickets;
     }
 
-    public void setBoughtProducts(List<Sale> boughtProducts) {
-        this.boughtProducts = boughtProducts;
+    public void setTickets(List<Sale> tickets) {
+        this.tickets = tickets;
     }
 
-    public List<Product> getCart() {
+    public List<PurchaseQuantity> getCart() {
         return cart;
     }
 
-    public void setCart(List<Product> cart) {
+    public void setCart(List<PurchaseQuantity> cart) {
         this.cart = cart;
     }
 }

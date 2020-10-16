@@ -12,6 +12,14 @@ public class PurchaseQuantity
     private Product prod;
     private int purchasedQuantity;
 
+    public PurchaseQuantity(int purchaseQuantityID) {
+        this.purchaseQuantityID = purchaseQuantityID;
+    }
+
+    public PurchaseQuantity() {
+
+    }
+
     public int getPurchaseQuantityID() {
         return purchaseQuantityID;
     }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,12 +67,47 @@ public class ResvilApiRest
     }
 
 
-/*
-    @RequestMapping(value = "addSale/{mail}", method = RequestMethod.POST)
-    public ResponseEntity<Sale> addSale(@PathVariable("mail") String mail, @RequestBody Sale sale)
+
+    @RequestMapping(value = "checkout/{mail}", method = RequestMethod.POST)
+    public ResponseEntity<Sale> checkout(@PathVariable("mail") String mail)
     {
-        re
-    }*/
+        float priceCounter = 0;
+        Optional<User> user = userDao.findById(mail);
+        if(user.isPresent())
+        {
+            System.out.println("Found him");
+            User foundUser = user.get();
+            Sale sale = new Sale();
+
+            for(PurchaseQuantity p : foundUser.getCart())
+            {
+                System.out.println("Looping through cart");
+                priceCounter += p.getPurchasedQuantity() * p.getProd().getProdPrice();
+                System.out.println(p.getProd().getProdID());
+                sale.getSoldProd().add(p.getProd().getProdID());
+            }
+
+            if(foundUser.getCredit()>= priceCounter)
+            {
+                System.out.println("Has credits");
+                sale.setBuyer(foundUser);
+                sale.setLdt(LocalDateTime.now());
+                saleDao.save(sale);
+                List<Sale> tickets = saleDao.findAll();
+                Sale s = tickets.get(tickets.size()-1);
+                foundUser.setCart(null);
+                foundUser.setCredit(foundUser.getCredit()-priceCounter);
+                foundUser.getTickets().add(s.getSaleID());
+                userDao.save(foundUser);
+                return ResponseEntity.ok(sale);
+            }
+
+            return ResponseEntity.ok().build();
+
+        }
+
+        return ResponseEntity.ok().build();
+    }
 
     @RequestMapping(value = "getSale/{id}", method = RequestMethod.GET)
     public ResponseEntity<Sale> getSale(@PathVariable("id") int id)
@@ -320,6 +356,11 @@ public class ResvilApiRest
                         return ResponseEntity.ok(purchase);
                     }
                 }
+
+                purchase.setProd(prodToCart.get());
+                user.getCart().add(purchase);
+                userDao.save(user);
+                return ResponseEntity.ok(purchase);
             }
             else {
                 purchase.setProd(prodToCart.get());

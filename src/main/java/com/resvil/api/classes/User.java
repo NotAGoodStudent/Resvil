@@ -14,9 +14,9 @@ public class User
     String password;
     String role;
     float credit;
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ElementCollection
     @Column(nullable = false)
-    List<Sale> tickets = new ArrayList<>();
+    List<Integer> tickets = new ArrayList<>();
     @ManyToMany(cascade=CascadeType.ALL)
     @Column(nullable = false)
     List<PurchaseQuantity> cart = new ArrayList<>();
@@ -82,11 +82,11 @@ public class User
         this.credit = credit;
     }
 
-    public List<Sale> getTickets() {
+    public List<Integer> getTickets() {
         return tickets;
     }
 
-    public void setTickets(List<Sale> tickets) {
+    public void setTickets(List<Integer> tickets) {
         this.tickets = tickets;
     }
 

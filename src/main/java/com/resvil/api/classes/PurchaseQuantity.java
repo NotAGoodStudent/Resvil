@@ -8,10 +8,9 @@ public class PurchaseQuantity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int purchaseQuantityID;
-    @ManyToOne
+    @OneToOne
     private Product prod;
     private int purchasedQuantity;
-
     public PurchaseQuantity(int purchaseQuantityID) {
         this.purchaseQuantityID = purchaseQuantityID;
     }

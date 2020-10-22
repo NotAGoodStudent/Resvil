@@ -27,21 +27,21 @@ public class ResvilApiRest
 
 
 
+
+
     @RequestMapping(value = "getUser/{mail}", method = RequestMethod.GET)
     public ResponseEntity<User> getUser(@PathVariable("mail") String mail)
     {
-
-        Optional<User> foundUser = userDao.findById(mail);
-        if(foundUser.isPresent())
-        {
-            User u = foundUser.get();
-            return ResponseEntity.ok(u);
+        List<User> llista = userDao.findAll();
+        for(User user : llista){
+            if(user.getEmail().equalsIgnoreCase(mail)){
+                return ResponseEntity.ok(user);
+            }
         }
 
-        else
-            {
-                return ResponseEntity.noContent().build();
-            }
+        return ResponseEntity.ok().build();
+
+
 
 
     }
@@ -68,23 +68,25 @@ public class ResvilApiRest
 
 
 
-    @RequestMapping(value = "checkout/{mail}", method = RequestMethod.POST)
-    public ResponseEntity<Sale> checkout(@PathVariable("mail") String mail)
+    @RequestMapping(value = "checkout/{idUser}", method = RequestMethod.POST)
+    public ResponseEntity<Sale> checkout(@PathVariable("idUser") int id)
     {
         float priceCounter = 0;
-        Optional<User> user = userDao.findById(mail);
+        Optional<User> user = userDao.findById(id);
         if(user.isPresent())
         {
             System.out.println("Found him");
             User foundUser = user.get();
             Sale sale = new Sale();
 
-            for(PurchaseQuantity p : foundUser.getCart())
+            /////////////////
+
+            for(PurchaseQuantity p : foundUser.get)
             {
                 System.out.println("Looping through cart");
                 priceCounter += p.getPurchasedQuantity() * p.getProd().getProdPrice();
                 System.out.println(p.getProd().getProdID());
-                sale.getSoldProd().add(p.getProd().getProdID());
+                //sale.getSoldProd().add(p.getProd().getProdID());
             }
 
             if(foundUser.getCredit()>= priceCounter)

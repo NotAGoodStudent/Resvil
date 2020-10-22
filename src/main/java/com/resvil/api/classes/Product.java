@@ -51,12 +51,11 @@ public class Product
         this.prodDesc = prodDesc;
     }
 
-
-    public Double getProdPrice() {
+    public double getProdPrice() {
         return prodPrice;
     }
 
-    public void setProdPrice(Double prodPrice) {
+    public void setProdPrice(double prodPrice) {
         this.prodPrice = prodPrice;
     }
 
@@ -75,5 +74,4 @@ public class Product
     public void setProdType(String prodType) {
         this.prodType = prodType;
     }
-
 }

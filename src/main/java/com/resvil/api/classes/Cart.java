@@ -1,0 +1,41 @@
+package com.resvil.api.classes;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+public class Cart {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idCart;
+    @OneToMany
+    List<PurchaseQuantity> listPQ = new ArrayList<>();
+    @OneToOne
+    User user;
+
+    public int getIdCart() {
+        return idCart;
+    }
+
+    public void setIdCart(int idCart) {
+        this.idCart = idCart;
+    }
+
+    public List<PurchaseQuantity> getListPQ() {
+        return listPQ;
+    }
+
+    public void setListPQ(List<PurchaseQuantity> listPQ) {
+        this.listPQ = listPQ;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

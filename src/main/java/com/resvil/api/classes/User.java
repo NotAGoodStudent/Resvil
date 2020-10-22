@@ -7,19 +7,16 @@ import javax.persistence.*;
 @Entity
 public class User
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int idUser;
     String name;
     String surname;
-    @Id
     String email;
     String password;
     String role;
     float credit;
-    @ElementCollection
-    @Column(nullable = false)
-    List<Integer> tickets = new ArrayList<>();
-    @ManyToMany(cascade=CascadeType.ALL)
-    @Column(nullable = false)
-    List<PurchaseQuantity> cart = new ArrayList<>();
+
 
     public User()
     {
@@ -32,6 +29,14 @@ public class User
         this.email = email;
         this.password = password;
         this.role = role;
+    }
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
     }
 
     public String getName() {
@@ -80,21 +85,5 @@ public class User
 
     public void setCredit(float credit) {
         this.credit = credit;
-    }
-
-    public List<Integer> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Integer> tickets) {
-        this.tickets = tickets;
-    }
-
-    public List<PurchaseQuantity> getCart() {
-        return cart;
-    }
-
-    public void setCart(List<PurchaseQuantity> cart) {
-        this.cart = cart;
     }
 }

@@ -375,6 +375,7 @@ public class ResvilApiRest
 
                        purchase.setProd(p.get());
                        s.getCart().getListPQ().add(purchase);
+                       s.setPaid(false);
                        saleDao.save(s);
                        return ResponseEntity.ok(s);
 

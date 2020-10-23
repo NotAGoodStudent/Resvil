@@ -12,11 +12,13 @@ public class Sale
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int saleID;
-    @OneToMany
-    List<PurchaseQuantity> soldProd;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    Cart cart;
+    @OneToOne(cascade = CascadeType.ALL)
     User buyer;
+    float total;
     LocalDateTime ldt;
+    boolean paid;
     boolean prodArrived;
 
 
@@ -32,12 +34,12 @@ public class Sale
         this.saleID = saleID;
     }
 
-    public List<PurchaseQuantity> getSoldProd() {
-        return soldProd;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setSoldProd(List<PurchaseQuantity> soldProd) {
-        this.soldProd = soldProd;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public User getBuyer() {
@@ -56,11 +58,27 @@ public class Sale
         this.ldt = ldt;
     }
 
+    public boolean isPaid() {
+        return paid;
+    }
+
+    public void setPaid(boolean paid) {
+        this.paid = paid;
+    }
+
     public boolean isProdArrived() {
         return prodArrived;
     }
 
     public void setProdArrived(boolean prodArrived) {
         this.prodArrived = prodArrived;
+    }
+
+    public float getTotal() {
+        return total;
+    }
+
+    public void setTotal(float total) {
+        this.total = total;
     }
 }

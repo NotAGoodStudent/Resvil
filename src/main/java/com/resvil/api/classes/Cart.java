@@ -10,10 +10,9 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idCart;
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL)
     List<PurchaseQuantity> listPQ = new ArrayList<>();
     @OneToOne
-    User user;
 
     public int getIdCart() {
         return idCart;
@@ -31,11 +30,4 @@ public class Cart {
         this.listPQ = listPQ;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

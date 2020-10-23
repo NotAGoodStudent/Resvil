@@ -8,7 +8,7 @@ public class Stock
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int prodPurchaseId;
+    int stockID;
     @OneToOne
     Product prod;
     int quantity;
@@ -17,12 +17,13 @@ public class Stock
     public Stock() {
     }
 
-    public int getProdPurchaseId() {
-        return prodPurchaseId;
+
+    public int getStockID() {
+        return stockID;
     }
 
-    public void setProdPurchaseId(int prodPurchaseId) {
-        this.prodPurchaseId = prodPurchaseId;
+    public void setStockID(int stockID) {
+        this.stockID = stockID;
     }
 
     public Product getProd() {
